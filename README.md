@@ -184,15 +184,18 @@ The system includes robust error handling for:
 The system is designed with modularity in mind:
 
 - **`scraper.py`** - Core web scraping functionality
-- **`vector_embeddings.py`** - Vector embedding generation using sentence-transformers
-- **`vector_database.py`** - Vector database abstraction layer with Chroma implementation
+- **`vector/embeddings.py`** - Vector embedding generation using sentence-transformers
+- **`vector/database.py`** - Vector database abstraction layer with Chroma implementation
 - **`embeddings_processor.py`** - Main script combining all functionality with CLI interface
+
+The vector-related functionality is organized in the `vector` package for better code organization and easier imports.
 
 ### Vector Database Abstraction
 The vector database layer is designed for easy switching:
 
 ```python
 # Current implementation uses Chroma
+from vector.database import VectorDatabaseManager
 db_manager = VectorDatabaseManager(database_type="chroma")
 
 # Future implementations could support other databases

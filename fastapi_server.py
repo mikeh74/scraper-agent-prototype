@@ -112,7 +112,7 @@ async def list_collections():
     """List available database collections."""
     try:
         from embeddings_processor import list_collections
-        from vector_database import VectorDatabaseManager
+        from vector.database import VectorDatabaseManager
         
         db_manager = VectorDatabaseManager(database_type="chroma")
         collections = db_manager.list_all_collections()
