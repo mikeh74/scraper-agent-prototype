@@ -6,7 +6,7 @@ This provides a REST API interface to the vector search functionality,
 complementing the MCP server interface.
 """
 
-from typing import Dict, Any, Optional
+from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 import uvicorn
@@ -111,7 +111,6 @@ async def search_with_query_params(
 async def list_collections():
     """List available database collections."""
     try:
-        from embeddings_processor import list_collections
         from vector.database import VectorDatabaseManager
         
         db_manager = VectorDatabaseManager(database_type="chroma")

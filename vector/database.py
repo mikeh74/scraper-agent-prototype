@@ -6,13 +6,11 @@ This module provides an abstraction layer that allows switching between differen
 vector databases. Currently implements Chroma as the default backend.
 """
 
-import json
 import logging
 import uuid
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 import chromadb
-from chromadb.config import Settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

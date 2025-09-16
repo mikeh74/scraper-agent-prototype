@@ -3,9 +3,7 @@
 Simple test to verify MCP server functions work
 """
 
-import json
 import asyncio
-from mcp import types
 from mcp_server import list_tools, call_tool
 
 async def test_mcp_functions():

@@ -199,7 +199,7 @@ def search_website_data(query_text: str, collection_name: str = "scraped_content
                     "message": "No matching documents found"
                 }
                 
-        except Exception as search_error:
+        except Exception:
             # If the advanced search fails, try the original method
             results = db_manager.search_similar(query_text, collection_name, limit)
             

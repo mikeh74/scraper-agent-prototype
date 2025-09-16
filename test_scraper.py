@@ -29,7 +29,7 @@ def test_scraper():
             else:
                 print(f"✅ Found required key: {key}")
         
-        print(f"\n✅ All tests passed!")
+        print("\n✅ All tests passed!")
         return True
         
     except Exception as e:

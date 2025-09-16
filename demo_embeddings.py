@@ -112,7 +112,7 @@ def demo_embeddings_pipeline():
     # Simulate what the database would do
     doc_id = f"doc_{hash(enhanced_data['title']) % 10000}"
     print(f"✅ Would store document with ID: {doc_id}")
-    print(f"✅ Would index embeddings in collection: 'scraped_content'")
+    print("✅ Would index embeddings in collection: 'scraped_content'")
     
     print("\n5. Simulating similarity search...")
     print("-" * 30)
@@ -131,7 +131,7 @@ def demo_embeddings_pipeline():
     dot_product = np.dot(query_embedding, content_embedding)
     similarity = dot_product  # Already normalized vectors
     
-    print(f"✅ Found similar document:")
+    print("✅ Found similar document:")
     print(f"   - Document ID: {doc_id}")
     print(f"   - Title: {enhanced_data['title']}")
     print(f"   - Similarity score: {similarity:.4f}")
@@ -217,12 +217,12 @@ if __name__ == "__main__":
     # Run multi-document demo
     processed_docs = demo_multiple_documents()
     
-    print(f"\n📊 Summary:")
-    print(f"- Demonstrated vector embedding generation")
-    print(f"- Simulated vector database storage and retrieval")
-    print(f"- Showed similarity search functionality")
+    print("\n📊 Summary:")
+    print("- Demonstrated vector embedding generation")
+    print("- Simulated vector database storage and retrieval")
+    print("- Showed similarity search functionality")
     print(f"- Processed {1 + len(processed_docs)} total documents")
-    print(f"\nThis demonstrates the complete pipeline that would work with:")
-    print(f"- Real embedding models (sentence-transformers)")
-    print(f"- Chroma vector database")
-    print(f"- Web scraping integration")
+    print("\nThis demonstrates the complete pipeline that would work with:")
+    print("- Real embedding models (sentence-transformers)")
+    print("- Chroma vector database")
+    print("- Web scraping integration")

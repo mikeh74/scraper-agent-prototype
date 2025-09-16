@@ -9,9 +9,7 @@ This script demonstrates how to:
 """
 
 import asyncio
-import json
 import requests
-import time
 from demo_embeddings import add_mock_embeddings
 from vector.database import VectorDatabaseManager
 from embeddings_processor import search_website_data
@@ -78,7 +76,7 @@ def test_search_function():
             for r in result["results"]:
                 print(f"      - {r['title']} (score: {r['similarity_score']})")
         else:
-            print(f"    No results found")
+            print("    No results found")
 
 async def test_mcp_server():
     """Test MCP server functionality."""

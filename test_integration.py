@@ -86,7 +86,7 @@ def test_complete_pipeline():
     enhanced_data["database_id"] = doc_id
     
     print(f"✅ Simulated storage with document ID: {doc_id}")
-    print(f"✅ Collection: 'scraped_content'")
+    print("✅ Collection: 'scraped_content'")
     
     print("\nStep 4: Complete enhanced data structure:")
     print("-" * 40)
@@ -157,7 +157,7 @@ def test_command_line_interface():
     print("✅ Search would find:")
     print(f"   - Document: {enhanced_data['title']}")
     print(f"   - URL: {enhanced_data['url']}")
-    print(f"   - Similarity: 0.8432")
+    print("   - Similarity: 0.8432")
     
     return enhanced_data
 
@@ -169,16 +169,16 @@ if __name__ == "__main__":
     # Run CLI interface demo
     result2 = test_command_line_interface()
     
-    print(f"\n🎯 Test Summary:")
-    print(f"- ✅ Web scraping integration: PASSED")
-    print(f"- ✅ Vector embeddings generation: PASSED") 
-    print(f"- ✅ Database storage simulation: PASSED")
-    print(f"- ✅ Similarity search simulation: PASSED")
-    print(f"- ✅ Command line interface: PASSED")
-    print(f"\n🚀 All tests completed successfully!")
-    print(f"\nThe implemented solution provides:")
-    print(f"  1. Vector embedding generation for JSON text fields")
-    print(f"  2. Chroma vector database integration with abstraction layer")
-    print(f"  3. Command-line interface for processing and querying")
-    print(f"  4. Integration with existing web scraper")
-    print(f"  5. Modular design for easy database switching")
+    print("\n🎯 Test Summary:")
+    print("- ✅ Web scraping integration: PASSED")
+    print("- ✅ Vector embeddings generation: PASSED") 
+    print("- ✅ Database storage simulation: PASSED")
+    print("- ✅ Similarity search simulation: PASSED")
+    print("- ✅ Command line interface: PASSED")
+    print("\n🚀 All tests completed successfully!")
+    print("\nThe implemented solution provides:")
+    print("  1. Vector embedding generation for JSON text fields")
+    print("  2. Chroma vector database integration with abstraction layer")
+    print("  3. Command-line interface for processing and querying")
+    print("  4. Integration with existing web scraper")
+    print("  5. Modular design for easy database switching")

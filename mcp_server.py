@@ -8,7 +8,7 @@ search against the scraped and indexed content using the existing vector databas
 
 import asyncio
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from mcp import types
 from mcp.server import Server

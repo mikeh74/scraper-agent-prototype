@@ -75,14 +75,14 @@ def demo_scraper():
         
         # Validate the structure
         required_keys = ["title", "url", "description", "last_modified", "content"]
-        print(f"\n📋 Validation:")
+        print("\n📋 Validation:")
         for key in required_keys:
             if key in result and result[key]:
                 print(f"✅ {key}: {result[key][:50]}{'...' if len(str(result[key])) > 50 else ''}")
             else:
                 print(f"❌ Missing or empty: {key}")
         
-        print(f"\n🎯 Content preview (first 200 chars):")
+        print("\n🎯 Content preview (first 200 chars):")
         print(f"{result['content'][:200]}...")
         
         return True
