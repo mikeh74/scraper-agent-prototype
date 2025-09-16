@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Vector database module with abstraction layer for storing and retrieving embeddings.
+Vector database module with abstraction layer for storing and retrieving
+embeddings.
 
-This module provides an abstraction layer that allows switching between different
-vector databases. Currently implements Chroma as the default backend.
+This module provides an abstraction layer that allows switching between
+different vector databases. Currently implements Chroma as the default backend.
 """
 
 import logging

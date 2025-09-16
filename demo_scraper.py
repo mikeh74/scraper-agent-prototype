@@ -23,24 +23,24 @@ def demo_scraper():
     <body>
         <h1>Main Title</h1>
         <p>This is the first paragraph with some content that explains what this page is about.</p>
-        
+
         <h2>Section Title</h2>
         <p>This is another paragraph under the section. It contains more detailed information.</p>
-        
+
         <h3>Subsection</h3>
         <p>Here is some content under the subsection.</p>
-        
+
         <p>This is a standalone paragraph without a heading.</p>
-        
+
         <h4>Level 4 Heading</h4>
         <p>Content under level 4 heading.</p>
-        
+
         <h5>Level 5 Heading</h5>
         <p>Content under level 5 heading.</p>
-        
+
         <h6>Level 6 Heading</h6>
         <p>Content under level 6 heading.</p>
-        
+
         <p>Final paragraph with some <strong>formatting</strong> and <em>emphasis</em> that should be extracted as plain text.</p>
     </body>
     </html>
