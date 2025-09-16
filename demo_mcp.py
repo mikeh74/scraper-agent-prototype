@@ -13,7 +13,7 @@ import json
 import requests
 import time
 from demo_embeddings import add_mock_embeddings
-from vector_database import VectorDatabaseManager
+from vector.database import VectorDatabaseManager
 from embeddings_processor import search_website_data
 
 def create_sample_data():

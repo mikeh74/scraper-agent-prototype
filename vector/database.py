@@ -278,7 +278,7 @@ class VectorDatabaseManager:
 
 if __name__ == "__main__":
     # Example usage
-    from vector_embeddings import add_vector_embeddings
+    from .embeddings import add_vector_embeddings
     
     # Sample data
     sample_data = {

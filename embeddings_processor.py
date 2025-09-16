@@ -12,8 +12,8 @@ import argparse
 from typing import Dict, Any, Union
 
 from scraper import WebScraper
-from vector_embeddings import add_vector_embeddings
-from vector_database import VectorDatabaseManager
+from vector.embeddings import add_vector_embeddings
+from vector.database import VectorDatabaseManager
 
 
 def process_json_with_embeddings(json_data: Union[Dict[str, Any], str], 
@@ -121,7 +121,7 @@ def search_website_data(query_text: str, collection_name: str = "scraped_content
             # For now, in offline mode, we'll do a simple text matching approach
             # since we can't generate embeddings for the query without internet access
             # This is a fallback implementation
-            from vector_database import ChromaVectorDatabase
+            from vector.database import ChromaVectorDatabase
             chroma_db = ChromaVectorDatabase()
             collection = chroma_db.client.get_collection(name=collection_name)
             
