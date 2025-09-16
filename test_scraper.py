@@ -11,15 +11,15 @@ from scraper import WebScraper
 def test_scraper():
     """Test the scraper with example.com"""
     print("Testing web scraper with example.com...")
-    
+
     try:
         scraper = WebScraper()
         result = scraper.scrape("https://example.com")
-        
+
         print("\nScraper test completed successfully!")
         print("\nResult:")
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        
+
         # Validate the structure
         required_keys = ["title", "url", "description", "last_modified", "content"]
         for key in required_keys:
@@ -28,10 +28,10 @@ def test_scraper():
                 return False
             else:
                 print(f"✅ Found required key: {key}")
-        
+
         print("\n✅ All tests passed!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Test failed: {e}")
         return False

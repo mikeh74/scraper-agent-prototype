@@ -10,7 +10,7 @@ from scraper import WebScraper
 
 def demo_scraper():
     """Demo the scraper with sample HTML content"""
-    
+
     # Sample HTML content that matches what we'd expect from a real webpage
     sample_html = """
     <!DOCTYPE html>
@@ -45,48 +45,50 @@ def demo_scraper():
     </body>
     </html>
     """
-    
+
     print("Demo: Testing web scraper functionality with sample HTML...")
-    
+
     try:
         # Create a scraper instance
         scraper = WebScraper()
-        
+
         # Parse the sample HTML
-        soup = BeautifulSoup(sample_html, 'html.parser')
-        
+        soup = BeautifulSoup(sample_html, "html.parser")
+
         # Extract components manually to simulate the scraper workflow
         title = scraper._extract_title(soup)
         description = scraper._extract_description(soup)
         content = scraper._extract_content(soup)
-        
+
         # Create result similar to what scrape() would return
         result = {
             "title": title,
             "url": "https://example.com",
             "description": description,
             "last_modified": "Mon, 13 Jan 2025 20:11:20 GMT",  # Example from the issue
-            "content": content
+            "content": content,
         }
-        
+
         print("\n✅ Demo completed successfully!")
         print("\nExtracted data structure:")
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        
+
         # Validate the structure
         required_keys = ["title", "url", "description", "last_modified", "content"]
         print("\n📋 Validation:")
         for key in required_keys:
             if key in result and result[key]:
-                print(f"✅ {key}: {result[key][:50]}{'...' if len(str(result[key])) > 50 else ''}")
+                print(
+                    f"✅ {key}: {result[key][:50]}{'...' if len(str(result[key])) > 50 else ''}"
+                )
             else:
                 print(f"❌ Missing or empty: {key}")
-        
+
         print("\n🎯 Content preview (first 200 chars):")
         print(f"{result['content'][:200]}...")
-        
+
         return True
-        
+
     except Exception as e:
         print(f"❌ Demo failed: {e}")
         return False
