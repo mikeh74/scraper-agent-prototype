@@ -34,3 +34,12 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
+
+# Vector database files
+chroma_db/
+*.db
+*.sqlite3
+
+# Temporary files
+/tmp
+*.tmp

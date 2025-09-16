@@ -88,10 +88,161 @@ def scrape_and_process(url: str, store_in_db: bool = False,
     return process_json_with_embeddings(scraped_data, store_in_db, collection_name)
 
 
+def search_website_data(query_text: str, collection_name: str = "scraped_content", 
+                       limit: int = 5) -> Dict[str, Any]:
+    """
+    Query the vector database for similar content and return results as data.
+    This version works offline by searching through stored document text.
+    
+    Args:
+        query_text (str): Text to search for
+        collection_name (str): Collection to search in
+        limit (int): Maximum number of results
+        
+    Returns:
+        dict: Search results with status and data
+    """
+    try:
+        db_manager = VectorDatabaseManager(database_type="chroma")
+        
+        # Try to get direct results from the database first
+        try:
+            # Check if collection exists and has documents
+            collections = db_manager.list_all_collections()
+            if collection_name not in collections:
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": 0,
+                    "results": [],
+                    "message": f"Collection '{collection_name}' does not exist"
+                }
+            
+            # For now, in offline mode, we'll do a simple text matching approach
+            # since we can't generate embeddings for the query without internet access
+            # This is a fallback implementation
+            from vector_database import ChromaVectorDatabase
+            chroma_db = ChromaVectorDatabase()
+            collection = chroma_db.client.get_collection(name=collection_name)
+            
+            # Get all documents and do text-based filtering
+            all_results = collection.get()
+            if not all_results["documents"]:
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": 0,
+                    "results": [],
+                    "message": "No documents found in collection"
+                }
+            
+            # Simple text matching for offline mode
+            matching_docs = []
+            query_lower = query_text.lower()
+            
+            for i, doc in enumerate(all_results["documents"]):
+                # Check if query terms appear in document
+                doc_text = doc.lower() if doc else ""
+                metadata = all_results["metadatas"][i] if all_results["metadatas"] else {}
+                title = metadata.get("title", "").lower() if metadata else ""
+                description = metadata.get("description", "").lower() if metadata else ""
+                
+                # Simple matching score based on term presence
+                score = 0
+                query_terms = query_lower.split()
+                for term in query_terms:
+                    if term in doc_text:
+                        score += 2
+                    if term in title:
+                        score += 3
+                    if term in description:
+                        score += 2
+                
+                if score > 0:
+                    matching_docs.append({
+                        "index": i,
+                        "score": score,
+                        "id": all_results["ids"][i],
+                        "document": doc,
+                        "metadata": metadata
+                    })
+            
+            # Sort by score and limit results
+            matching_docs.sort(key=lambda x: x["score"], reverse=True)
+            matching_docs = matching_docs[:limit]
+            
+            if matching_docs:
+                # Format results
+                formatted_results = []
+                for doc in matching_docs:
+                    formatted_result = {
+                        "id": doc["id"],
+                        "title": doc["metadata"].get("title", "No title"),
+                        "url": doc["metadata"].get("url", "No URL"),
+                        "content_snippet": doc["document"][:200] + "..." if doc["document"] else "",
+                        "similarity_score": round(doc["score"] / 10.0, 3)  # Normalize score
+                    }
+                    formatted_results.append(formatted_result)
+                
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": len(formatted_results),
+                    "results": formatted_results
+                }
+            else:
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": 0,
+                    "results": [],
+                    "message": "No matching documents found"
+                }
+                
+        except Exception as search_error:
+            # If the advanced search fails, try the original method
+            results = db_manager.search_similar(query_text, collection_name, limit)
+            
+            if results:
+                # Format results for structured output
+                formatted_results = []
+                for result in results:
+                    formatted_result = {
+                        "id": result['id'],
+                        "title": result.get('metadata', {}).get('title', 'No title'),
+                        "url": result.get('metadata', {}).get('url', 'No URL'),
+                        "content_snippet": result.get('document', '')[:200] + '...' if result.get('document') else '',
+                        "similarity_score": round(1 - result['distance'], 4) if result.get('distance') is not None else None
+                    }
+                    formatted_results.append(formatted_result)
+                
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": len(formatted_results),
+                    "results": formatted_results
+                }
+            else:
+                return {
+                    "success": True,
+                    "query": query_text,
+                    "count": 0,
+                    "results": [],
+                    "message": "No similar documents found"
+                }
+            
+    except Exception as e:
+        return {
+            "success": False,
+            "query": query_text,
+            "error": str(e)
+        }
+
+
 def query_database(query_text: str, collection_name: str = "scraped_content", 
                   limit: int = 5) -> None:
     """
-    Query the vector database for similar content.
+    Query the vector database for similar content (CLI version that prints results).
     
     Args:
         query_text (str): Text to search for
@@ -100,26 +251,22 @@ def query_database(query_text: str, collection_name: str = "scraped_content",
     """
     print(f"Searching for: '{query_text}'")
     
-    try:
-        db_manager = VectorDatabaseManager(database_type="chroma")
-        results = db_manager.search_similar(query_text, collection_name, limit)
-        
-        if results:
-            print(f"\n✅ Found {len(results)} similar document(s):")
-            for i, result in enumerate(results, 1):
-                print(f"\n{i}. Document ID: {result['id']}")
-                if result.get('metadata'):
-                    title = result['metadata'].get('title', 'No title')
-                    url = result['metadata'].get('url', 'No URL')
-                    print(f"   Title: {title}")
-                    print(f"   URL: {url}")
-                if result.get('distance') is not None:
-                    print(f"   Similarity score: {1 - result['distance']:.4f}")
+    # Use the new data function and print results
+    result = search_website_data(query_text, collection_name, limit)
+    
+    if result["success"]:
+        if result["count"] > 0:
+            print(f"\n✅ Found {result['count']} similar document(s):")
+            for i, doc in enumerate(result["results"], 1):
+                print(f"\n{i}. Document ID: {doc['id']}")
+                print(f"   Title: {doc['title']}")
+                print(f"   URL: {doc['url']}")
+                if doc['similarity_score'] is not None:
+                    print(f"   Similarity score: {doc['similarity_score']}")
         else:
             print("No similar documents found")
-            
-    except Exception as e:
-        print(f"❌ Error querying database: {e}")
+    else:
+        print(f"❌ Error querying database: {result['error']}")
 
 
 def list_collections() -> None:

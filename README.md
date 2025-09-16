@@ -217,3 +217,27 @@ Other models can be easily configured by changing the model name in `VectorEmbed
 - Web interface for document management
 - Advanced search filters and faceting
 - Automatic content updates and re-embedding
+
+## MCP Server
+
+This project now includes a Model Context Protocol (MCP) server that exposes the vector search functionality as a `search_website(query)` tool. The MCP server allows integration with AI assistants and other MCP-compatible clients.
+
+### Key Features
+
+- **MCP Tool**: `search_website(query)` - Search scraped content using semantic similarity
+- **FastAPI Endpoint**: REST API interface for HTTP-based access
+- **Offline Search**: Works without internet connectivity using text-based matching as fallback
+- **Structured Results**: Returns page snippets, URLs, titles, and similarity scores
+
+### Quick Start
+
+```bash
+# Start the MCP server (stdio transport)
+python mcp_server.py
+
+# Or start the FastAPI server (HTTP REST API)
+python fastapi_server.py
+# Then visit http://localhost:8000/docs for interactive documentation
+```
+
+See [MCP_README.md](MCP_README.md) for detailed MCP server documentation.
